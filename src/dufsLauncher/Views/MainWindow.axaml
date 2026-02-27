@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:dufsLauncher.ViewModels"
+        xmlns:conv="using:dufsLauncher.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="340"
+        x:Class="dufsLauncher.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/logo.ico"
+        Title="dufs Launcher"
+        Width="480" Height="340"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <conv:InverseBoolConverter x:Key="InverseBool"/>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+
+        <!-- 底部状态栏 -->
+        <Border DockPanel.Dock="Bottom"
+                Background="{Binding StatusBarBackground}"
+                Padding="8,8">
+            <Grid ColumnDefinitions="Auto, Auto, *, Auto">
+                <TextBlock Grid.Column="0"
+                           Text="{Binding StatusText}"
+                           FontSize="12"
+                           Foreground="{Binding StatusBarForeground}"
+                           Margin="8,0,0,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="3"
+                           Text="{Binding StatusDetail}"
+                           FontSize="12"
+                           Foreground="{Binding StatusBarForeground}"
+                           Margin="0,0,8,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <!-- 主内容区 -->
+        <Border Padding="28,20">
+            <StackPanel Spacing="18">
+                <!-- Serve Path -->
+                <StackPanel Spacing="6">
+                    <TextBlock Text="共享路径" FontWeight="SemiBold" FontSize="13" Opacity="0.8"/>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding ServePath}"
+                                 Watermark="选择要共享的文件夹..."
+                                 IsReadOnly="True"/>
+                        <Button Grid.Column="1"
+                                Content="浏览"
+                                Margin="10,0,0,0"
+                                Command="{Binding BrowseFolderCommand}"
+                                IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBool}}"
+                                Padding="20,6"/>
+                    </Grid>
+                    <TextBlock Text="{Binding ServePathError}"
+                               FontSize="11"
+                               Foreground="#E74C3C"
+                               IsVisible="{Binding HasServePathError}"/>
+                </StackPanel>
+
+                <!-- Port -->
+                <StackPanel Spacing="6">
+                    <TextBlock Text="监听端口" FontWeight="SemiBold" FontSize="13" Opacity="0.8"/>
+                    <NumericUpDown Value="{Binding Port}"
+                                   FormatString="0"
+                                   Width="160"
+                                   HorizontalAlignment="Left"
+                                   IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBool}}"/>
+                    <TextBlock Text="{Binding PortError}"
+                               FontSize="11"
+                               Foreground="#E67E22"
+                               IsVisible="{Binding HasPortError}"/>
+                </StackPanel>
+
+                <!-- Permissions -->
+                <StackPanel Spacing="6">
+                    <TextBlock Text="访问权限" FontWeight="SemiBold" FontSize="13" Opacity="0.8"/>
+                    <StackPanel Orientation="Horizontal" Spacing="28">
+                        <RadioButton Content="所有权限"
+                                     IsChecked="{Binding IsAllPermissions}"
+                                     GroupName="Permission"
+                                     IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBool}}"/>
+                        <RadioButton Content="只读"
+                                     IsChecked="{Binding IsAllPermissions, Converter={StaticResource InverseBool}}"
+                                     GroupName="Permission"
+                                     IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBool}}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,6,0,0" HorizontalAlignment="Center">
+                    <Button Content="启动服务"
+                            Command="{Binding StartCommand}"
+                            Classes="accent"
+                            Width="130" Height="36"
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"/>
+                    <Button Content="终止服务"
+                            Command="{Binding StopCommand}"
+                            Width="130" Height="36"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+    </DockPanel>
+</Window>
