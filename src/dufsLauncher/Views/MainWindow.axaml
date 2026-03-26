@@ -106,7 +106,7 @@
                             Width="130" Height="36"
                             HorizontalContentAlignment="Center" 
                             VerticalContentAlignment="Center"/>
-                    <Button Content="终止服务"
+                    <Button Content="停止服务"
                             Command="{Binding StopCommand}"
                             Width="130" Height="36"
                             HorizontalContentAlignment="Center"

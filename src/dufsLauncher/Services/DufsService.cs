@@ -110,7 +110,7 @@ public class DufsService : IDisposable
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"终止服务失败: {ex.Message}", ex);
+            throw new InvalidOperationException($"停止服务失败: {ex.Message}", ex);
         }
         finally
         {

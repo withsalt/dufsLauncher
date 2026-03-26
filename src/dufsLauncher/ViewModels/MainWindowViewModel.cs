@@ -188,7 +188,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            await ShowError("终止失败", ex.Message);
+            await ShowError("停止失败", ex.Message);
         }
     }
 

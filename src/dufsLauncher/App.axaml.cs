@@ -49,7 +49,7 @@ public partial class App : Application
     private void SetupTrayIcon(WindowIcon icon)
     {
         var startItem = new NativeMenuItem("启动服务") { Command = _viewModel!.StartCommand };
-        var stopItem = new NativeMenuItem("终止服务") { Command = _viewModel!.StopCommand };
+        var stopItem = new NativeMenuItem("停止服务") { Command = _viewModel!.StopCommand };
         var exitItem = new NativeMenuItem("退出");
 
         exitItem.Click += (_, _) =>
